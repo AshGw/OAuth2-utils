@@ -1,26 +1,16 @@
+mod utils;
+
 use rand::{rngs::OsRng, RngCore};
 use sha2::{Digest, Sha256};
 use base64::{Engine as _, engine::{self, general_purpose}, alphabet};
-
 use rand::distributions::Alphanumeric;
 use rand::{thread_rng, Rng};
 
-
-fn from_urlsafe_chars() -> String {
-    let uppercase: std::iter::Map<std::ops::RangeInclusive<u8>, fn(u8) -> char> = (b'A'..=b'Z').map(char::from);
-    let lowercase: std::iter::Map<std::ops::RangeInclusive<u8>, fn(u8) -> char> = (b'a'..=b'z').map(char::from);
-    let digits: std::iter::Map<std::ops::RangeInclusive<u8>, fn(u8) -> char> = (b'0'..=b'9').map(char::from);
-
-    let urlsafe_chars: String = uppercase.chain(lowercase).chain(digits)
-        .chain("-_".chars())
-        .collect();
-
-    urlsafe_chars
-}
+use utils::urlsafe_chars; 
 
 fn token_urlsafex(n: Option<usize>) -> String {
     let n_default: usize = n.unwrap_or(64);
-    let urlsafe_chars = from_urlsafe_chars();
+    let urlsafe_chars = urlsafe_chars();
 
     let mut rng = rand::thread_rng();
     let token: String = (0..n_default)
@@ -74,6 +64,6 @@ fn main() {
     let csrf_token = gen_csrf_token();
     println!("CSRF Token: {}", csrf_token);
     println!("The generated csrf token: {}",token_urlsafe(Some(64)));
-    println!("{}",from_urlsafe_chars()); 
+    println!("{}",urlsafe_chars()); 
 
 }
