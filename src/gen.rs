@@ -1,10 +1,11 @@
 mod utils;
+mod consts; 
 mod base_64;
 use sha2::{Digest, Sha256};
 
 use utils::{token_urlsafe}; 
 use base_64::urlsafe_b64encode; 
-
+use consts::DEFAULT_TOKEN_SIZE;
 
 pub fn gen_state(n: Option<usize>) -> String {
     return token_urlsafe(Some(n.unwrap_or(DEFAULT_TOKEN_SIZE)));
