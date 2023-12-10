@@ -1,41 +1,11 @@
 mod utils;
-
+mod consts;
 use rand::{rngs::OsRng, RngCore};
 use sha2::{Digest, Sha256};
 use base64::{Engine as _, engine::{self, general_purpose}, alphabet};
-use rand::distributions::Alphanumeric;
-use rand::{thread_rng, Rng};
 
-use utils::urlsafe_chars; 
-
-fn token_urlsafex(n: Option<usize>) -> String {
-    let n_default: usize = n.unwrap_or(64);
-    let urlsafe_chars = urlsafe_chars();
-
-    let mut rng = rand::thread_rng();
-    let token: String = (0..n_default)
-        .map(|_| {
-            let idx = rng.gen_range(0..urlsafe_chars.len());
-            urlsafe_chars.chars().nth(idx).unwrap()
-        })
-        .collect();
-
-    token
-}
-fn token_urlsafe(n: Option<usize>) -> String {
-    let n_default: usize = n.unwrap_or(96);
-    let rng: rand::prelude::ThreadRng = thread_rng();
-    let token: String = rng
-        .sample_iter(&Alphanumeric)
-        .take(n_default)
-        .map(char::from)
-        .collect();
-    token.chars().collect()
-}
-
-const BASE_64: engine::GeneralPurpose =
-    engine::GeneralPurpose::new(&alphabet::URL_SAFE, general_purpose::NO_PAD);
-
+use utils::{urlsafe_chars,token_urlsafe}; 
+use consts::BASE_64; 
 
 fn gen_oauth_params() -> (String, String, String, &'static str) {
     let state: String = OsRng.next_u32().to_string();
@@ -63,7 +33,8 @@ fn main() {
 
     let csrf_token = gen_csrf_token();
     println!("CSRF Token: {}", csrf_token);
-    println!("The generated csrf token: {}",token_urlsafe(Some(64)));
-    println!("{}",urlsafe_chars()); 
+    println!("urlsafe chars {}",urlsafe_chars()); 
+    println!("Token_rul safex: {}",token_urlsafe(Some(64)));
+
 
 }
