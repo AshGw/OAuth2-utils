@@ -11,14 +11,11 @@ fn gen_oauth_params() -> (String, String, String, String) {
     let state: String = token_urlsafe(Some(96));
     let code_verifier: String =  token_urlsafe(Some(96));
     let code_challenge_method: String = "S256".to_string();
-    let mut hasher = Sha256::new();
-    hasher.update(code_verifier.as_bytes());
-    let x = hasher.finalize();
-    println!("{:?}",x);
-    let code_challenge: String = urlsafe_b64encode(x);
+    let code_challenge: String = urlsafe_b64encode(&Sha256::digest(&code_verifier));
 
     (state, code_verifier, code_challenge, code_challenge_method)
 }
+
 
 
 fn main() {

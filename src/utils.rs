@@ -7,14 +7,17 @@ pub fn token_urlsafe(n: Option<usize>) -> String {
     
     (0..n.unwrap_or(DEFAULT_TOKEN_SIZE))
         .map(|_| {
-            let idx: usize = thread_rng().gen_range(0..urlsafe_chars.len());
-            urlsafe_chars.chars().nth(idx).unwrap()
+            urlsafe_chars
+            .chars()
+            .nth(thread_rng().gen_range(0..urlsafe_chars.len()))
+            .unwrap()
         })
         .collect()
 }
 
 fn _urlsafe_chars() -> String {
-    (b'A'..=b'Z').map(char::from)
+    (b'A'..=b'Z')
+    .map(char::from)
     .chain( (b'a'..=b'z')
     .map(char::from))
     .chain((b'0'..=b'9')
