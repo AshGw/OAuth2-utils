@@ -1,13 +1,12 @@
-use base64::{Engine as _, engine::{self, general_purpose}, alphabet};
+use base64::{Engine, engine::{self, general_purpose}, alphabet};
 
-
-const BASE_64: engine::GeneralPurpose =
-    engine::GeneralPurpose::new(&alphabet::URL_SAFE, general_purpose::NO_PAD);
-
-
-pub fn base64_encode<T>(token: T) -> String
+pub fn urlsafe_b64encode<T>(token: T) -> String
 where
     T: AsRef<[u8]>,
 {
-    BASE_64.encode(token)
+    _BASE_64.encode(token)
 }
+
+const _BASE_64: engine::GeneralPurpose =
+    engine::GeneralPurpose::new(&alphabet::URL_SAFE, general_purpose::NO_PAD);
+

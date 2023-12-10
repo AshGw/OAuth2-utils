@@ -1,6 +1,19 @@
-use rand::{Rng};
+use rand::{Rng,thread_rng};
 
-pub fn urlsafe_chars() -> String {
+const DEFAULT_TOKEN_SIZE: usize = 96; 
+
+pub fn token_urlsafe(n: Option<usize>) -> String {
+    let urlsafe_chars: String = _urlsafe_chars();
+    
+    (0..n.unwrap_or(DEFAULT_TOKEN_SIZE))
+        .map(|_| {
+            let idx: usize = thread_rng().gen_range(0..urlsafe_chars.len());
+            urlsafe_chars.chars().nth(idx).unwrap()
+        })
+        .collect()
+}
+
+fn _urlsafe_chars() -> String {
     (b'A'..=b'Z').map(char::from)
     .chain( (b'a'..=b'z')
     .map(char::from))
@@ -11,14 +24,3 @@ pub fn urlsafe_chars() -> String {
 }
 
 
-pub fn token_urlsafe(n: Option<usize>) -> String {
-    let urlsafe_chars: String = urlsafe_chars();
-    let mut rng: rand::prelude::ThreadRng = rand::thread_rng();
-    
-    (0..n.unwrap_or(64))
-        .map(|_| {
-            let idx: usize = rng.gen_range(0..urlsafe_chars.len());
-            urlsafe_chars.chars().nth(idx).unwrap()
-        })
-        .collect()
-}
