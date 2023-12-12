@@ -1,5 +1,9 @@
-use crate::gen::gen_code_challenge;
+pub mod error;
+pub mod gen;
+
+pub use error::CodeVerifierError;
 use crate::urlsafe::urlsafe_token;
+use gen::gen_code_challenge;
 
 
 #[derive(Debug, Clone)]
