@@ -1,6 +1,6 @@
 [package]
-name = "auth2_tokens"
-version = "0.1.0"
+name = "oauth2_utils"
+version = "0.0.0"
 edition = "2021"
 
 
