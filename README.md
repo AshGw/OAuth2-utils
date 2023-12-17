@@ -1,6 +1,6 @@
 ## Overview
 
-This crate that provides utility functions for working with OAuth2
+This crate provides utility functions for working with OAuth2
 - PKCE 
 - URL-safe tokens 
 - URL-safe base64 encoding/decoding
