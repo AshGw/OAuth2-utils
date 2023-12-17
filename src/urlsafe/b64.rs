@@ -1,14 +1,13 @@
-use std::borrow::Cow;
-use base64::{Engine};
-use crate::consts::URLS_B64; 
+use crate::consts::URLS_B64;
 use crate::errors::B64Error;
-
+use base64::Engine;
+use std::borrow::Cow;
 
 /// Encodes a given token into a URL-safe Base64 string using the specified Base64 encoding engine.
 ///
 /// # Arguments
 ///
-/// * `token`: A generic type `T` that can be any type convertible to a slice of `u8` bytes. 
+/// * `token`: A generic type `T` that can be any type convertible to a slice of `u8` bytes.
 ///   It represents the token or data that needs to be encoded using URL-safe Base64 encoding.
 ///
 /// # Returns
@@ -22,18 +21,17 @@ where
     URLS_B64.encode(token)
 }
 
-
 /// The function `urlsafe_b64decode` decodes a URL-safe base64 encoded token and returns the decoded
 /// string.
-/// 
+///
 /// Arguments:
-/// 
+///
 /// * `token`: The `token` parameter is a generic type `T` that can be any type that can be converted to
 /// a slice of `u8` values using the `AsRef<[u8]>` trait. This allows the function to accept various
 /// types such as `&[u8]`, `
-/// 
+///
 /// Returns:
-/// 
+///
 /// a `Result` type with the following possible outcomes:
 /// - If the decoding is successful, it returns an `Ok` variant containing a `Cow<'static, str>` which
 /// represents the decoded string.
@@ -48,7 +46,6 @@ where
         Err(_) => Err(B64Error::DecodeError),
     }
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -75,24 +72,28 @@ mod tests {
         assert_eq!(binary_encoded_result, binary_expected_output);
     }
 
-
     #[test]
     fn test_urlsafe_b64decode() {
         // Simple string
         let encoded_string: &str = "aGV5eQ";
         let expected_output: &str = "heyy";
         let decoded_result: Result<Cow<'static, str>, B64Error> = urlsafe_b64decode(encoded_string);
-        assert_eq!(decoded_result.unwrap(),expected_output.to_string());
+        assert_eq!(decoded_result.unwrap(), expected_output.to_string());
 
         // empty str
         let empty_encoded: &str = "";
         let empty_expected_output: &str = "";
-        let empty_decoded_result: Result<Cow<'static, str>, B64Error> = urlsafe_b64decode(empty_encoded);
-        assert_eq!(empty_decoded_result.unwrap(),empty_expected_output.to_string());
+        let empty_decoded_result: Result<Cow<'static, str>, B64Error> =
+            urlsafe_b64decode(empty_encoded);
+        assert_eq!(
+            empty_decoded_result.unwrap(),
+            empty_expected_output.to_string()
+        );
 
         //  invalid encoding
         let invalid_encoded: &str = "InvalidBase64";
-        let invalid_decoded_result: Result<Cow<'static, str>, B64Error> = urlsafe_b64decode(invalid_encoded);
+        let invalid_decoded_result: Result<Cow<'static, str>, B64Error> =
+            urlsafe_b64decode(invalid_encoded);
         assert!(invalid_decoded_result.is_err());
     }
 }

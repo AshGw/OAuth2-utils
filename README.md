@@ -5,11 +5,9 @@ This crate provides utility functions for working with OAuth2
 - URL-safe tokens 
 - URL-safe base64 encoding/decoding
 
-## Installation 
-Add this to your `Cargo.toml`
-```toml
-[dependencies]
-oauth2_utils = "0.0.1"
+## Installation
+```commandline
+cargo install ouath2_utils 
 ```
 ## Examples 
 
