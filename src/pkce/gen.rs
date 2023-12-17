@@ -27,3 +27,34 @@ pub fn gen_code_verifier(n: Option<usize>) -> String {
 pub fn gen_code_challenge(code_verifier: &str) -> String {
     return urlsafe_b64encode(&Sha256::digest(code_verifier));
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_gen_code_verifier_default_size() {
+        let code_verifier: String = gen_code_verifier(None);
+        assert_eq!(code_verifier.len(), 96);
+    }
+
+    #[test]
+    fn test_gen_code_verifier_custom_size() {
+        let custom_size: usize = 64;
+        let code_verifier: String = gen_code_verifier(Some(custom_size));
+        assert_eq!(code_verifier.len(), custom_size);
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_gen_code_verifier_invalid_size() {
+        gen_code_verifier(Some(32));
+    }
+
+    #[test]
+    fn test_gen_code_challenge() {
+        let code_verifier: &str = "quandale_dingle";
+        let code_challenge: String = gen_code_challenge(code_verifier);
+        assert_eq!(code_challenge.len(), 43);
+    }
+}
