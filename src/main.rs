@@ -1,7 +1,7 @@
-use auth2_tokens::pkce::gen::{gen_code_verifier,gen_code_challenge};
-use auth2_tokens::pkce::CodeVerifierError; 
-use auth2_tokens::urlsafe::{urlsafe_token};
-use auth2_tokens::pkce::PKCE; 
+use oauth2_utils::pkce::gen::{gen_code_verifier,gen_code_challenge};
+use oauth2_utils::pkce::CodeVerifierError; 
+use oauth2_utils::urlsafe::{urlsafe_token};
+use oauth2_utils::pkce::PKCE; 
 
 
 
