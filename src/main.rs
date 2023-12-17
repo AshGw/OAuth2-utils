@@ -3,6 +3,10 @@ use auth2_tokens::pkce::CodeVerifierError;
 use auth2_tokens::urlsafe::{urlsafe_token};
 use auth2_tokens::pkce::PKCE; 
 
+
+
+// run a testing module for all of these 
+
 fn main() {
     let cv: Result<String, CodeVerifierError> =  gen_code_verifier(Some(255)); 
     match cv {
