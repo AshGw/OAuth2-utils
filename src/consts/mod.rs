@@ -1,7 +1,6 @@
 use base64::{
     alphabet,
     engine::{general_purpose, GeneralPurpose},
-    Engine,
 };
 
 pub const URLS_B64: GeneralPurpose =
