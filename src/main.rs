@@ -1,16 +1,10 @@
-use oauth2_utils::pkce::gen::{gen_code_verifier,gen_code_challenge};
-use oauth2_utils::urlsafe::{urlsafe_token};
-use oauth2_utils::pkce::PKCE; 
-
-
-// run a testing module for all of these 
+use oauth2_utils::pkce::PKCE;
 
 fn main() {
-    let cv =  gen_code_verifier(Some((80))); 
-    println!("{}",cv) ; 
-    println!("{:?}",gen_code_challenge(&"rtrtg"));
-    println!("{}",urlsafe_token(45));
+    // Create a new PKCE instance and print its code challenge and code verifier
     let pkce = PKCE::new();
-    println!("{}",pkce.code_challenge);
-    println!("{}",pkce.code_verifier);
+    println!("PKCE Code Challenge: {}", pkce.code_challenge);
+    println!("PKCE Code Verifier: {}", pkce.code_verifier);
+    println!("PKCE Code Verifier: {}", pkce.method);
+
 }
