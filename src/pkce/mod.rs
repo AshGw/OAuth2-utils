@@ -13,6 +13,7 @@ pub struct PKCE {
     pub method: String,
 }
 
+// consts form the consts module for 96
 impl PKCE {
     pub fn new() -> Self {
         let code_verifier = urlsafe_token(96);
