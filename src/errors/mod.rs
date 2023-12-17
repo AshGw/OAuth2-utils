@@ -1,5 +1,5 @@
-
 use std::fmt::{self,Formatter,Display};
+use base64::DecodeError;
 
 #[derive(Debug)]
 pub enum OauthError {
@@ -8,6 +8,7 @@ pub enum OauthError {
     InvalidState,
     InvalidNonce, 
     InvalidPKCEPair,
+    B64DecodeError(DecodeError),
 }
 
 impl Display for OauthError {
@@ -32,6 +33,10 @@ impl Display for OauthError {
             Self::InvalidPKCEPair => write!(
                 fmt,
                 "..."
+            ),
+            Self::B64DecodeError(err) => write!(
+                fmt,
+                "{}", err
             ),
         }
     }

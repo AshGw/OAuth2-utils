@@ -18,3 +18,5 @@ fn main() {
     println!("{}",encoded);
     println!("{:?}",urlsafe_b64decode(&encoded));
 }
+
+
