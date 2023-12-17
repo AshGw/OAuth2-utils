@@ -29,7 +29,7 @@ impl Display for B64Error {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
         match self {
             Self::InvalidEncoding => write!(fmt, "Invalid Base64 encoding."),
-            Self::DecodeError => write!(fmt, "{}", self,),
+            Self::DecodeError => write!(fmt, "{}", "Cannot decode he given value",),
         }
     }
 }
