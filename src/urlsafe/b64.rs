@@ -1,7 +1,5 @@
-use base64::{Engine, engine::{general_purpose,GeneralPurpose}, alphabet};
-
-// push this to consts 
-const URLS_B64: GeneralPurpose = GeneralPurpose::new(&alphabet::URL_SAFE, general_purpose::NO_PAD);
+use base64::{Engine};
+use crate::consts::URLS_B64; 
 
 pub fn urlsafe_b64encode<T>(token: T) -> String
 where

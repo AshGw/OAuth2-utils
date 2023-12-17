@@ -1,4 +1,3 @@
-use super::error::CodeVerifierError; 
 use sha2::{Digest, Sha256};
 use crate::urlsafe::
 {
@@ -6,13 +5,12 @@ use crate::urlsafe::
     urlsafe_b64encode,
 };
 
-// should panic here not return an error
-pub fn gen_code_verifier(n: Option<usize>) -> Result<String, CodeVerifierError> {
+pub fn gen_code_verifier(n: Option<usize>) -> String {
     let size: usize = n.unwrap_or_else(|| 96);
     if size < 48 || size > 128 {
-        return Err(CodeVerifierError::InvalidSize);
+        panic!("Invalid size, the size must be between 48 and 128");
     }
-    Ok(urlsafe_token(size))
+    urlsafe_token(size) 
 }
 
 pub fn gen_code_challenge(code_verifier: &str) -> String {
