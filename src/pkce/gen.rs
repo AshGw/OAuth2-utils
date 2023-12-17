@@ -6,6 +6,7 @@ use crate::urlsafe::
     urlsafe_b64encode,
 };
 
+// should panic here not return an error
 pub fn gen_code_verifier(n: Option<usize>) -> Result<String, CodeVerifierError> {
     let size: usize = n.unwrap_or_else(|| 96);
     if size < 48 || size > 128 {
