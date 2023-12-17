@@ -5,12 +5,13 @@ use sha2::{Digest, Sha256};
 /// defaulting to 96 characters if no size is provided.
 /// The `n` must be between `48` & `128`, view [#ref](https://datatracker.ietf.org/doc/html/rfc7636#section-4.1)
 pub fn gen_code_verifier(n: Option<usize>) -> String {
-    let size: usize = n.unwrap_or_else(|| 96);
-    if size < 48 || size > 128 {
+    let size: usize = n.unwrap_or(96);
+    if !(48..=128).contains(&size) {
         panic!("Invalid size, the size must be between 48 and 128");
     }
     urlsafe_token(size)
 }
+
 
 /// generates a code challenge by url-safe encoding the SHA256 hash of a given
 /// code verifier.
