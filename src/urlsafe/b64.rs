@@ -1,5 +1,7 @@
-use base64::{Engine};
+use std::borrow::Cow;
+use base64::{Engine,DecodeError};
 use crate::consts::URLS_B64; 
+
 
 /// Encodes a given token into a URL-safe Base64 string using the specified Base64 encoding engine.
 ///
@@ -18,6 +20,19 @@ where
 {
     URLS_B64.encode(token)
 }
+
+pub fn urlsafe_b64decode<T>(token: T) -> Result<Cow<'static, str>, DecodeError>
+where
+    T: AsRef<[u8]>,
+{
+    match  URLS_B64.decode(token) {
+        Ok(v) => Ok(Cow::Owned(String::from_utf8_lossy(&v).to_string())),
+        Err(e) => Err(e),
+    }
+}
+
+
+
 
 
 
