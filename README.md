@@ -1,8 +1,8 @@
 ## Overview
 
-This crate provides utility functions for working with OAuth2
+This crate that provides utility functions for working with OAuth2
 - PKCE 
-- URL-safe tokens generation 
+- URL-safe tokens 
 - URL-safe base64 encoding/decoding
 
 ## Installation 
@@ -47,7 +47,7 @@ fn main() {
 }
 ```
 
-To generate a URL-safe token for Nonce or State  etc..
+To generate a URL-safe token for Nonce, State, etc..
 ````rust
 use oauth2_utils::urlsafe::urlsafe_token;
 
