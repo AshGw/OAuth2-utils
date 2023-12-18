@@ -12,7 +12,6 @@ pub fn gen_code_verifier(n: Option<usize>) -> String {
     urlsafe_token(size)
 }
 
-
 /// generates a code challenge by url-safe encoding the SHA256 hash of a given
 /// code verifier.
 ///

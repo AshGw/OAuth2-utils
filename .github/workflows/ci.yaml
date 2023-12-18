@@ -30,16 +30,6 @@ jobs:
       env:
         RUST_BACKTRACE: 1
 
-  bench:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-
-    - uses: dtolnay/rust-toolchain@nightly
-    - uses: Swatinem/rust-cache@v2
-
-    - run: cargo bench
-
   lint:
     runs-on: ubuntu-latest
     steps:
