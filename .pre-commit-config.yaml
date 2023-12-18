@@ -6,7 +6,6 @@ repos:
   hooks:
   - id: check-yaml
   - id: check-toml
-  - id: trailing-whitespace
   - id: check-added-large-files
 
 - repo: local
