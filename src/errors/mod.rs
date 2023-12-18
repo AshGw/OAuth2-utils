@@ -1,5 +1,5 @@
-use std::fmt::{self, Formatter, Display};
 use base64::DecodeError as DecErr;
+use std::fmt::{self, Display, Formatter};
 
 #[derive(Debug)]
 pub struct TokenError;
@@ -28,14 +28,8 @@ pub enum B64Error {
 impl Display for B64Error {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
         match self {
-            Self::InvalidEncoding => write!(
-                fmt,
-                "Invalid Base64 encoding."
-            ),
-            Self::DecodeError => write!(
-                fmt,
-                "{}", self,
-            ),
+            Self::InvalidEncoding => write!(fmt, "Invalid Base64 encoding."),
+            Self::DecodeError => write!(fmt, "Cannot decode the given value"),
         }
     }
 }
@@ -43,45 +37,27 @@ impl Display for B64Error {
 impl Display for PKCEError {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
         match self {
-            Self::InvalidCodeVerifier => write!(
-                fmt,
-                "Invalid PKCE code verifier."
-            ),
-            Self::InvalidMethod => write!(
-                fmt,
-                "Invalid PKCE method."
-            ),
-            Self::InvalidCodeChallenge => write!(
-                fmt,
-                "Invalid PKCE code challenge."
-            ),
+            Self::InvalidCodeVerifier => write!(fmt, "Invalid PKCE code verifier."),
+            Self::InvalidMethod => write!(fmt, "Invalid PKCE method."),
+            Self::InvalidCodeChallenge => write!(fmt, "Invalid PKCE code challenge."),
         }
     }
 }
 
 impl Display for TokenError {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
-        write!(
-            fmt,
-            "Token error."
-        )
+        write!(fmt, "Token error.")
     }
 }
 
 impl Display for NonceError {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
-        write!(
-            fmt,
-            "Nonce error."
-        )
+        write!(fmt, "Nonce error.")
     }
 }
 
 impl Display for StateError {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
-        write!(
-            fmt,
-            "State error."
-        )
+        write!(fmt, "State error.")
     }
 }
