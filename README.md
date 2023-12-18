@@ -7,7 +7,7 @@ This crate provides utility functions for working with OAuth2
 
 ## Installation
 ```commandline
-cargo install ouath2_utils 
+cargo add ouath2_utils 
 ```
 ## Examples 
 
@@ -23,12 +23,6 @@ fn main() {
     println!("PKCE Code method: {}", pkce.method);
 
 }
-````
-The result should look something like this:
-````commandline
-PKCE Code Challenge: WTht2od6WZKdSSTEgqyfNuSSn3ykru-YDpI8nta20hI
-PKCE Code Verifier: bEV4fZdeQaZ~oZc85-2YfYSl6zvPMa1xJJYT7cMRxNZ9L17Kqp89sAEPZJwEetp35W3~wJYzvaH6c9ktiR1oAzIAdF5s_dC4
-PKCE Code Verifier: S256
 ````
 To generate a code verifier with a custom length
 ```rust
