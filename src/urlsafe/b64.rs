@@ -83,17 +83,12 @@ mod tests {
         // empty str
         let empty_encoded: &str = "";
         let empty_expected_output: &str = "";
-        let empty_decoded_result: Result<Cow<'static, str>, B64Error> =
-            urlsafe_b64decode(empty_encoded);
-        assert_eq!(
-            empty_decoded_result.unwrap(),
-            empty_expected_output.to_string()
-        );
+        let empty_decoded_result: Result<Cow<'static, str>, B64Error> = urlsafe_b64decode(empty_encoded);
+        assert_eq!(empty_decoded_result.unwrap(), empty_expected_output.to_string());
 
         //  invalid encoding
         let invalid_encoded: &str = "InvalidBase64";
-        let invalid_decoded_result: Result<Cow<'static, str>, B64Error> =
-            urlsafe_b64decode(invalid_encoded);
+        let invalid_decoded_result: Result<Cow<'static, str>, B64Error> = urlsafe_b64decode(invalid_encoded);
         assert!(invalid_decoded_result.is_err());
     }
 }
