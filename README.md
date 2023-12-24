@@ -33,9 +33,8 @@ use sha2::{Digest, Sha256};
 fn main() {
     let custom_code_verifier = gen_code_verifier(Some(128)); // defaults to 96 if None
     println!("Custom Code Verifier: {}", custom_code_verifier);
-    // // //
     let custom_code_challenge = gen_code_challenge(&custom_code_verifier);
-    println!("Custom Code Challenge: {:?}", custom_code_challenge);
+    println!("Custom Code Challenge: {}", custom_code_challenge);
 }
 ```
 
@@ -49,19 +48,17 @@ fn main() {
 ````
 For base64 encoding/decoding operations
 ```rust
-use oauth2_utils::urlsafe::b64::{urlsafe_b64decode,urlsafe_b64encode};
+use oauth2_utils::urlsafe::b64::{urlsafe_b64decode, urlsafe_b64encode};
 use oauth2_utils::errors::B64Error;
-use std::borrow::Cow;
 
 fn main() {
-    let a: String = String::from("some value"); 
-    let encoded: String = urlsafe_b64encode(a); 
-    println!("{}",encoded);
-    let decoded: Result<Cow<'_, str>, B64Error> = urlsafe_b64decode(&encoded); 
-    println!("{:?}",decoded);
+    let a: String = String::from("some value");
+    let encoded: String = urlsafe_b64encode(a);
+    println!("{}", encoded);
+    let _decoded: Result<std::borrow::Cow<'_, str>, B64Error> = urlsafe_b64decode(&encoded);
+    ..; 
 }
 ```
-
 
 ## License 
 [GPL-3.0](https://github.com/AshGw/oauth2_utils/blob/main/LICENSE)
