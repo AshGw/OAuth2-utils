@@ -1,6 +1,6 @@
 [package]
 name = "oauth2_utils"
-version = "1.0.1"
+version = "1.0.2"
 authors = ["AshGw ashrefgw@proton.me"]
 edition = "2021"
 description = "crate that provides utility functions for working with OAuth2"
