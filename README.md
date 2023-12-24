@@ -31,7 +31,7 @@ use oauth2_utils::urlsafe::{urlsafe_token, urlsafe_b64encode};
 use sha2::{Digest, Sha256};
 
 fn main() {
-    let custom_code_verifier = gen_code_verifier(Some(128)); // defaults to 98 if None
+    let custom_code_verifier = gen_code_verifier(Some(128)); // defaults to 96 if None
     println!("Custom Code Verifier: {}", custom_code_verifier);
     // // //
     let custom_code_challenge = gen_code_challenge(&custom_code_verifier);

@@ -21,22 +21,13 @@ where
     URLS_B64.encode(token)
 }
 
-/// The function `urlsafe_b64decode` decodes a URL-safe base64 encoded token and returns the decoded
+/// decodes a URL-safe base64 encoded token and returns the decoded
 /// string.
 ///
 /// Arguments:
 ///
 /// * `token`: The `token` parameter is a generic type `T` that can be any type that can be converted to
-/// a slice of `u8` values using the `AsRef<[u8]>` trait. This allows the function to accept various
-/// types such as `&[u8]`, `
-///
-/// Returns:
-///
-/// a `Result` type with the following possible outcomes:
-/// - If the decoding is successful, it returns an `Ok` variant containing a `Cow<'static, str>` which
-/// represents the decoded string.
-/// - If there is an error during decoding, it returns an `Err` variant containing a `DecodeError` which
-/// represents the specific decoding error.
+/// a slice of `u8` values.
 pub fn urlsafe_b64decode<T>(token: T) -> Result<Cow<'static, str>, B64Error>
 where
     T: AsRef<[u8]>,

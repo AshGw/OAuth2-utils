@@ -1,7 +1,7 @@
 use crate::consts::URL_SAFE_CHARS;
 use rand::{thread_rng, Rng};
 
-/// generates a random string of length `n` using URL-safe characters.
+/// generates a random string of length `n` from URL-safe characters.
 pub fn urlsafe_token(n: usize) -> String {
     (0..n)
         .map(|_| {
