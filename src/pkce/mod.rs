@@ -4,7 +4,7 @@ use gen::gen_code_challenge;
 
 #[derive(Debug, Clone)]
 pub struct PKCE {
-    /// The randomly generated code verifier for PKCE.
+    /// The randomly generated code verifier.
     pub code_verifier: String,
     /// The code challenge derived from the code verifier.
     pub code_challenge: String,
@@ -13,7 +13,7 @@ pub struct PKCE {
 }
 
 impl PKCE {
-    /// Generates a new PKCE instance with a randomly generated code verifier,
+    /// Generates a new [PKCE](https://tools.ietf.org/html/rfc7636) instance with a randomly generated code verifier,
     /// a derived code challenge, and the specified method (default is "S256").
     ///
     /// # Returns
