@@ -15,4 +15,4 @@ alias c:= clean
 
 @set-hooks:
     pre-commit
-    bash ./hooks/pre-push
+    bash ./scripts/pre-push
