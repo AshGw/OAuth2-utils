@@ -21,3 +21,8 @@ alias cov:= coverage
 
 @coverage:
     cargo +nightly tarpaulin --verbose --all-features --workspace --timeout 120 --out xml
+
+
+@format:
+     cargo fmt -- --check
+     
