@@ -4,16 +4,6 @@ use base64::Engine;
 use std::borrow::Cow;
 
 /// Encodes a given token into a URL-safe Base64 string using the specified Base64 encoding engine.
-///
-/// # Arguments
-///
-/// * `token`: A generic type `T` that can be any type convertible to a slice of `u8` bytes.
-///   It represents the token or data that needs to be encoded using URL-safe Base64 encoding.
-///
-/// # Returns
-///
-/// A `String` representing the URL-safe Base64 encoding of the input `token`.
-
 pub fn urlsafe_b64encode<T>(token: T) -> String
 where
     T: AsRef<[u8]>,
@@ -21,14 +11,10 @@ where
     URLS_B64.encode(token)
 }
 
-/// decodes a URL-safe base64 encoded token and returns the decoded
-/// string.
-///
-/// Arguments:
-///
-/// * `token`: The `token` parameter is a generic type `T` that can be any type that can be converted to
-/// a slice of `u8` values.
-pub fn urlsafe_b64decode<T>(token: T) -> Result<Cow<'static, str>, B64Error>
+type PlainText = Cow<'static, str>;
+
+/// Decodes a URL-safe base64 encoded token 
+pub fn urlsafe_b64decode<T>(token: T) -> Result<PlainText, B64Error>
 where
     T: AsRef<[u8]>,
 {
