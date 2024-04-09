@@ -10,9 +10,16 @@ use sha2::{Digest, Sha256};
 /// <br>
 /// **PANICS !** if not between `43` & `128`. Defaults to `96` characters if no size is provided.
 pub fn gen_code_verifier(n: Option<usize>) -> String {
-    let size: usize = n.unwrap_or(96);
-    if !(43..=128).contains(&size) {
-        panic!("Invalid size, the size must be between 48 and 128");
+    const DEFAULT_SIZE: usize = 96; 
+    const MIN_SIZE: usize = 43;
+    const MAX_SIZE: usize = 128; 
+
+    let size: usize = n.unwrap_or(DEFAULT_SIZE);
+    if !(MIN_SIZE..=MAX_SIZE).contains(&size) {
+        panic!(
+            "Invalid size, the size must be between {} and {}",
+            MIN_SIZE, MAX_SIZE
+        );
     }
     urlsafe_token(size)
 }
