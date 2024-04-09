@@ -1,7 +1,9 @@
 use crate::consts::{CV_DEFAULT_SIZE, CV_MAX_SIZE, CV_MIN_SIZE};
+use crate::errors::CodeVerifierError;
 use crate::urlsafe::{urlsafe_b64encode, urlsafe_token};
 use sha2::{Digest, Sha256};
 
+type CodeVerifierResult = Result<String, CodeVerifierError>;
 /// Generates a random [code verifier](https://datatracker.ietf.org/doc/html/rfc7636#section-4.1)
 /// string of a specified size.
 ///
@@ -11,15 +13,15 @@ use sha2::{Digest, Sha256};
 /// <br>
 /// ### PANICS !
 /// if not between `43` & `128`. Defaults to `96` characters if no size is provided.
-pub fn gen_code_verifier(n: Option<usize>) -> String {
+pub fn gen_code_verifier(n: Option<usize>) -> CodeVerifierResult {
     let size: usize = n.unwrap_or(CV_DEFAULT_SIZE);
-    if !(CV_MIN_SIZE..=CV_MAX_SIZE).contains(&size) {
-        panic!(
-            "Invalid size, the size must be between {} and {}",
-            CV_MIN_SIZE, CV_MAX_SIZE
-        );
+    if size > CV_MAX_SIZE {
+        return Err(CodeVerifierError::TooBig);
     }
-    urlsafe_token(size)
+    if size < CV_MIN_SIZE {
+        return Err(CodeVerifierError::TooSmall);
+    }
+    Ok(urlsafe_token(size))
 }
 
 /// Generates a URL safe base64 encoded string from the code verifier.
@@ -30,34 +32,57 @@ pub fn gen_code_verifier(n: Option<usize>) -> String {
 pub fn gen_code_challenge(code_verifier: &str) -> String {
     urlsafe_b64encode(Sha256::digest(code_verifier))
 }
-
 #[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn test_gen_code_verifier_default_size() {
-        let code_verifier: String = gen_code_verifier(None);
+        let code_verifier_result: CodeVerifierResult = gen_code_verifier(None);
+        assert!(code_verifier_result.is_ok());
+        let code_verifier = code_verifier_result.unwrap();
         assert_eq!(code_verifier.len(), CV_DEFAULT_SIZE);
     }
 
     #[test]
-    fn test_gen_code_verifier_custom_size() {
+    fn test_gen_code_verifier_custom_size_within_range() {
         let custom_size: usize = 64;
-        let code_verifier: String = gen_code_verifier(Some(custom_size));
+        let code_verifier_result: CodeVerifierResult =
+            gen_code_verifier(Some(custom_size));
+        assert!(code_verifier_result.is_ok());
+        let code_verifier = code_verifier_result.unwrap();
         assert_eq!(code_verifier.len(), custom_size);
     }
 
     #[test]
-    #[should_panic]
-    fn test_gen_code_verifier_invalid_size() {
-        gen_code_verifier(Some(32));
+    fn test_gen_code_verifier_custom_size_too_small() {
+        let custom_size: usize = CV_MIN_SIZE - 1;
+        let code_verifier_result: CodeVerifierResult =
+            gen_code_verifier(Some(custom_size));
+        assert!(code_verifier_result.is_err()); // Ensure error occurred
+        let err = code_verifier_result.err().unwrap();
+        assert_eq!(err, CodeVerifierError::TooSmall);
+    }
+
+    #[test]
+    fn test_gen_code_verifier_custom_size_too_large() {
+        let custom_size: usize = CV_MAX_SIZE + 1;
+        let code_verifier_result: CodeVerifierResult =
+            gen_code_verifier(Some(custom_size));
+        assert!(code_verifier_result.is_err());
+        let err = code_verifier_result.err().unwrap();
+        assert_eq!(err, CodeVerifierError::TooBig);
     }
 
     #[test]
     fn test_gen_code_challenge() {
         let code_verifier: &str = "foo_bar";
         let code_challenge: String = gen_code_challenge(code_verifier);
-        assert_eq!(code_challenge.len(), CV_MIN_SIZE);
+
+        let mut hasher = Sha256::new();
+        hasher.update(code_verifier);
+        let hash_result = hasher.finalize();
+        let expected_challenge = urlsafe_b64encode(&hash_result);
+        assert_eq!(code_challenge, expected_challenge);
     }
 }

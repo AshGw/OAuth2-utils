@@ -1,25 +1,16 @@
+use crate::consts::{CV_MAX_SIZE, CV_MIN_SIZE};
 use base64::DecodeError as DecErr;
 use std::fmt::{self, Display, Formatter};
-use crate::consts::{CV_MAX_SIZE,CV_MIN_SIZE}; 
 
-#[derive(Debug)]
-pub struct TokenError;
-
-#[derive(Debug)]
-pub struct NonceError;
-
-#[derive(Debug)]
-pub struct StateError;
-
-#[derive(Debug)]
-pub enum CodeVerfierError {
+#[derive(Debug, PartialEq)]
+pub enum CodeVerifierError {
     TooBig,
     TooSmall,
 }
 
 pub type DecodeError = DecErr;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum B64Error {
     InvalidEncoding,
     DecodeError,
@@ -34,11 +25,16 @@ impl Display for B64Error {
     }
 }
 
-impl Display for CodeVerfierError {
+impl Display for CodeVerifierError {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
         match self {
-            Self::TooBig => write!(fmt, "it must be less than {}",CV_MAX_SIZE), 
-            Self::TooSmall => write!(fmt, "it must be greater than {}", CV_MIN_SIZE), 
+            Self::TooBig => write!(fmt, "It must be less than {}", CV_MAX_SIZE),
+            Self::TooSmall => {
+                write!(fmt, "It must be greater than {}", CV_MIN_SIZE)
+            }
         }
     }
 }
+
+impl std::error::Error for CodeVerifierError {}
+impl std::error::Error for B64Error {}

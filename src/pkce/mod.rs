@@ -25,3 +25,9 @@ impl PKCE {
         }
     }
 }
+
+impl Default for PKCE {
+    fn default() -> Self {
+        Self::new()
+    }
+}
