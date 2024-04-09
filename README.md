@@ -1,64 +1,66 @@
 ## Overview
 
-This crate provides utility functions for working with OAuth2
-- PKCE 
-- URL-safe tokens 
-- URL-safe base64 encoding/decoding
+This crate provides utility functions for working with OAuth2:
+
+ - PKCE
+ - URL-safe tokens
+ - URL-safe base64 encoding/decoding
 
 ## Installation
-```commandline
-cargo add ouath2_utils 
+
+```shell
+cargo add oauth2_utils
 ```
-## Examples 
 
-To generate a PKCE pair with the corresponding method: 
+## Usage
 
-````rust
+ To generate a PKCE pair with the corresponding method (SHA256 by default):
+
+```rust
 use oauth2_utils::pkce::PKCE;
 
-fn main() {
-    let pkce = PKCE::new();
-    println!("PKCE Code Challenge: {}", pkce.code_challenge);
-    println!("PKCE Code Verifier: {}", pkce.code_verifier);
-    println!("PKCE Code method: {}", pkce.method);
+let pkce = PKCE::new();
 
-}
-````
-To generate a code verifier with a custom length
+println!("PKCE Code Challenge: {}", pkce.code_challenge);
+println!("PKCE Code Verifier: {}", pkce.code_verifier);
+println!("PKCE Code method: {}", pkce.method);
+```
+To generate a code verifier with a custom length:
+
 ```rust
-use oauth2_utils::pkce::gen::{gen_code_verifier, gen_code_challenge};
-use oauth2_utils::urlsafe::{urlsafe_token, urlsafe_b64encode};
-use sha2::{Digest, Sha256};
+use oauth2_utils::errors::CodeVerifierError;
 
-fn main() {
-    let custom_code_verifier = gen_code_verifier(Some(128)); // defaults to 96 if None
-    println!("Custom Code Verifier: {}", custom_code_verifier);
-    let custom_code_challenge = gen_code_challenge(&custom_code_verifier);
-    println!("Custom Code Challenge: {}", custom_code_challenge);
+use oauth2_utils::pkce::gen::{gen_code_challenge, gen_code_verifier};
+
+  
+pub fn main() -> Result<(), CodeVerifierError> {
+    let code_verifier = gen_code_verifier(Some(128))?;
+    eprintln!("Code Verifier: {}", code_verifier);
+    let code_challenge = gen_code_challenge(&code_verifier);
+    eprintln!("Code Challenge: {}", code_challenge);
+    Ok(())
 }
 ```
-
 To generate a URL-safe token for Nonce, State, etc..
-````rust
+
+```rust
 use oauth2_utils::urlsafe::urlsafe_token;
 
-fn main() {
-    println!("URL-safe Token: {}", urlsafe_token(32)) // of length 32;
-}
-````
-For base64 encoding/decoding operations
-```rust
-use oauth2_utils::urlsafe::b64::{urlsafe_b64decode, urlsafe_b64encode};
-use oauth2_utils::errors::B64Error;
-
-fn main() {
-    let a: String = String::from("some value");
-    let encoded: String = urlsafe_b64encode(a);
-    println!("{}", encoded);
-    let _decoded: Result<std::borrow::Cow<'_, str>, B64Error> = urlsafe_b64decode(&encoded);
-    ..; 
-}
+println!("URL-safe Token: {}", urlsafe_token(32))
 ```
 
-## License 
-[GPL-3.0](https://github.com/AshGw/oauth2_utils/blob/main/LICENSE)
+For base64 encoding/decoding operations:
+```rust
+
+use oauth2_utils::errors::B64Error;
+use oauth2_utils::urlsafe::b64::{urlsafe_b64decode, urlsafe_b64encode};
+
+pub fn main() -> Result<(), B64Error> {
+    let val = String::from("some value");
+    let encoded = urlsafe_b64encode(val);
+    println!("{}", encoded);
+    let decoded = urlsafe_b64decode(encoded)?;
+    println!("{}", decoded);
+    Ok(())
+}
+```
