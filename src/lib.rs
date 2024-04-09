@@ -26,15 +26,14 @@
 //! To generate a code verifier with a custom length:
 //!
 //! ```rust
-//! use oauth2_utils::pkce::gen::{gen_code_verifier, gen_code_challenge};
-//! use oauth2_utils::urlsafe::{urlsafe_token, urlsafe_b64encode};
-//! use sha2::{Digest, Sha256};
+//! use oauth2_utils::errors::CodeVerifierError;
+//! use oauth2_utils::pkce::gen::{gen_code_challenge, gen_code_verifier};
 //!
-
-//! let custom_code_verifier = gen_code_verifier(Some(128)); // defaults to 98 if None
-//! println!("Custom Code Verifier: {}", custom_code_verifier);
-//! let custom_code_challenge = gen_code_challenge(&custom_code_verifier);
-//! println!("Custom Code Challenge: {:?}", custom_code_challenge);
+//!
+//! let code_verifier = gen_code_verifier(Some(128))?; if `None` then defaults to 98
+//! eprintln!("Code Verifier: {}", code_verifier);
+//! let code_challenge = gen_code_challenge(&code_verifier);
+//! eprintln!("Code Challenge: {}", code_challenge);
 
 //! ```
 //!
@@ -50,15 +49,15 @@
 //! For base64 encoding/decoding operations:
 //!
 //! ```rust
-//! use oauth2_utils::urlsafe::b64::{urlsafe_b64decode, urlsafe_b64encode};
 //! use oauth2_utils::errors::B64Error;
-//! use std::borrow::Cow;
+//! use oauth2_utils::urlsafe::b64::{urlsafe_b64decode, urlsafe_b64encode};
+//!
 //!
 //! let a: String = String::from("some value");
 //! let encoded = urlsafe_b64encode(a);
 //! println!("{}", encoded);
-//! let decoded = urlsafe_b64decode(&encoded);
-//! println!("{:?}", decoded);
+//! let decoded = urlsafe_b64decode(encoded)?;
+//! println!("{}", decoded);
 //! ```
 
 pub mod consts;

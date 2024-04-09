@@ -1,7 +1,6 @@
 use crate::consts::URLS_B64;
 use crate::errors::B64Error;
 use base64::Engine;
-use std::borrow::Cow;
 
 /// Encodes a given token into a URL-safe Base64 string
 pub fn urlsafe_b64encode<T>(token: T) -> String
@@ -11,17 +10,13 @@ where
     URLS_B64.encode(token)
 }
 
-type PlainText = Cow<'static, str>;
-
 /// Decodes a URL-safe base64 encoded token
-pub fn urlsafe_b64decode<T>(token: T) -> Result<PlainText, B64Error>
+pub fn urlsafe_b64decode<T>(token: T) -> Result<String, B64Error>
 where
     T: AsRef<[u8]>,
 {
     match URLS_B64.decode(token) {
-        Ok(decoded) => {
-            Ok(Cow::Owned(String::from_utf8_lossy(&decoded).to_string()))
-        }
+        Ok(decoded) => Ok(String::from_utf8_lossy(&decoded).to_string()),
         Err(_) => Err(B64Error::DecodeError),
     }
 }
@@ -56,15 +51,13 @@ mod tests {
         // Simple string
         let encoded_string: &str = "aGV5eQ";
         let expected_output: &str = "heyy";
-        let decoded_result: Result<Cow<'static, str>, B64Error> =
-            urlsafe_b64decode(encoded_string);
+        let decoded_result = urlsafe_b64decode(encoded_string);
         assert_eq!(decoded_result.unwrap(), expected_output.to_string());
 
         // empty str
         let empty_encoded: &str = "";
         let empty_expected_output: &str = "";
-        let empty_decoded_result: Result<Cow<'static, str>, B64Error> =
-            urlsafe_b64decode(empty_encoded);
+        let empty_decoded_result = urlsafe_b64decode(empty_encoded);
         assert_eq!(
             empty_decoded_result.unwrap(),
             empty_expected_output.to_string()
@@ -72,8 +65,7 @@ mod tests {
 
         //  invalid encoding
         let invalid_encoded: &str = "InvalidBase64";
-        let invalid_decoded_result: Result<Cow<'static, str>, B64Error> =
-            urlsafe_b64decode(invalid_encoded);
+        let invalid_decoded_result = urlsafe_b64decode(invalid_encoded);
         assert!(invalid_decoded_result.is_err());
     }
 }
