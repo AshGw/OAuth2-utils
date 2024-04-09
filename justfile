@@ -22,7 +22,7 @@ alias cov:= coverage
     bash ./scripts/pre-push
 
 @coverage:
-    cargo +nightly tarpaulin --verbose --all-features --workspace --timeout 120 --out xml
+    cargo +nightly tarpaulin --verbose --all-features --workspace --timeout 120 --out html
 
 
 @format:
