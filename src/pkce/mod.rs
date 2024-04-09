@@ -11,7 +11,7 @@ pub struct PKCE {
 }
 
 impl PKCE {
-    /// Generates a new [PKCE](https://tools.ietf.org/html/rfc7636) instance with a randomly generated code verifier,
+    /// Creates a new [PKCE](https://tools.ietf.org/html/rfc7636) instance with a randomly generated code verifier,
     /// a derived code challenge, and the specified method (default is "S256").
     pub fn new() -> Self {
         let code_verifier = urlsafe_token(CV_DEFAULT_SIZE);
