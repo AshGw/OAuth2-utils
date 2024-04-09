@@ -9,7 +9,8 @@ use sha2::{Digest, Sha256};
 ///
 /// `n`: The number of characters to generate.
 /// <br>
-/// **PANICS !** if not between `43` & `128`. Defaults to `96` characters if no size is provided.
+/// ### PANICS !
+/// if not between `43` & `128`. Defaults to `96` characters if no size is provided.
 pub fn gen_code_verifier(n: Option<usize>) -> String {
     let size: usize = n.unwrap_or(CV_DEFAULT_SIZE);
     if !(CV_MIN_SIZE..=CV_MAX_SIZE).contains(&size) {

@@ -3,7 +3,7 @@ use crate::errors::B64Error;
 use base64::Engine;
 use std::borrow::Cow;
 
-/// Encodes a given token into a URL-safe Base64 string using the specified Base64 encoding engine.
+/// Encodes a given token into a URL-safe Base64 string
 pub fn urlsafe_b64encode<T>(token: T) -> String
 where
     T: AsRef<[u8]>,

@@ -1,5 +1,6 @@
 use base64::DecodeError as DecErr;
 use std::fmt::{self, Display, Formatter};
+use crate::consts::{CV_MAX_SIZE,CV_MIN_SIZE}; 
 
 #[derive(Debug)]
 pub struct TokenError;
@@ -11,10 +12,9 @@ pub struct NonceError;
 pub struct StateError;
 
 #[derive(Debug)]
-pub enum PKCEError {
-    InvalidCodeVerifier,
-    InvalidMethod,
-    InvalidCodeChallenge,
+pub enum CodeVerfierError {
+    TooBig,
+    TooSmall,
 }
 
 pub type DecodeError = DecErr;
@@ -34,34 +34,11 @@ impl Display for B64Error {
     }
 }
 
-impl Display for PKCEError {
+impl Display for CodeVerfierError {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
         match self {
-            Self::InvalidCodeVerifier => {
-                write!(fmt, "Invalid PKCE code verifier.")
-            }
-            Self::InvalidMethod => write!(fmt, "Invalid PKCE method."),
-            Self::InvalidCodeChallenge => {
-                write!(fmt, "Invalid PKCE code challenge.")
-            }
+            Self::TooBig => write!(fmt, "it must be less than {}",CV_MAX_SIZE), 
+            Self::TooSmall => write!(fmt, "it must be greater than {}", CV_MIN_SIZE), 
         }
-    }
-}
-
-impl Display for TokenError {
-    fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
-        write!(fmt, "Token error.")
-    }
-}
-
-impl Display for NonceError {
-    fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
-        write!(fmt, "Nonce error.")
-    }
-}
-
-impl Display for StateError {
-    fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
-        write!(fmt, "State error.")
     }
 }
