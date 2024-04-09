@@ -13,7 +13,7 @@ alias cov:= coverage
     cargo build
 
 @clean:
-    rm -rf pkg target  dist 
+    rm -rf target  dist  cobertura.xml
 
 @set-hooks:
     pre-commit
