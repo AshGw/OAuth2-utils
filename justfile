@@ -27,3 +27,6 @@ alias cov:= coverage
 
 @format:
      cargo fmt
+
+@clippy: 
+    cargo clippy -- -D warnings -A incomplete_features -W clippy::dbg_macro -W clippy::print_stdout

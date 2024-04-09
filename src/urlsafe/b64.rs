@@ -13,7 +13,7 @@ where
 
 type PlainText = Cow<'static, str>;
 
-/// Decodes a URL-safe base64 encoded token 
+/// Decodes a URL-safe base64 encoded token
 pub fn urlsafe_b64decode<T>(token: T) -> Result<PlainText, B64Error>
 where
     T: AsRef<[u8]>,
