@@ -19,7 +19,9 @@ where
     T: AsRef<[u8]>,
 {
     match URLS_B64.decode(token) {
-        Ok(decoded) => Ok(Cow::Owned(String::from_utf8_lossy(&decoded).to_string())),
+        Ok(decoded) => {
+            Ok(Cow::Owned(String::from_utf8_lossy(&decoded).to_string()))
+        }
         Err(_) => Err(B64Error::DecodeError),
     }
 }
@@ -54,18 +56,24 @@ mod tests {
         // Simple string
         let encoded_string: &str = "aGV5eQ";
         let expected_output: &str = "heyy";
-        let decoded_result: Result<Cow<'static, str>, B64Error> = urlsafe_b64decode(encoded_string);
+        let decoded_result: Result<Cow<'static, str>, B64Error> =
+            urlsafe_b64decode(encoded_string);
         assert_eq!(decoded_result.unwrap(), expected_output.to_string());
 
         // empty str
         let empty_encoded: &str = "";
         let empty_expected_output: &str = "";
-        let empty_decoded_result: Result<Cow<'static, str>, B64Error> = urlsafe_b64decode(empty_encoded);
-        assert_eq!(empty_decoded_result.unwrap(), empty_expected_output.to_string());
+        let empty_decoded_result: Result<Cow<'static, str>, B64Error> =
+            urlsafe_b64decode(empty_encoded);
+        assert_eq!(
+            empty_decoded_result.unwrap(),
+            empty_expected_output.to_string()
+        );
 
         //  invalid encoding
         let invalid_encoded: &str = "InvalidBase64";
-        let invalid_decoded_result: Result<Cow<'static, str>, B64Error> = urlsafe_b64decode(invalid_encoded);
+        let invalid_decoded_result: Result<Cow<'static, str>, B64Error> =
+            urlsafe_b64decode(invalid_encoded);
         assert!(invalid_decoded_result.is_err());
     }
 }

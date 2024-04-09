@@ -1,7 +1,6 @@
+use crate::consts::{CV_DEFAULT_SIZE, CV_MAX_SIZE, CV_MIN_SIZE};
 use crate::urlsafe::{urlsafe_b64encode, urlsafe_token};
-use crate::consts::{CV_DEFAULT_SIZE,CV_MIN_SIZE,CV_MAX_SIZE};
 use sha2::{Digest, Sha256};
-
 
 /// Generates a random [code verifier](https://datatracker.ietf.org/doc/html/rfc7636#section-4.1)
 /// string of a specified size.
@@ -12,11 +11,12 @@ use sha2::{Digest, Sha256};
 /// <br>
 /// **PANICS !** if not between `43` & `128`. Defaults to `96` characters if no size is provided.
 pub fn gen_code_verifier(n: Option<usize>) -> String {
-
-
     let size: usize = n.unwrap_or(CV_DEFAULT_SIZE);
     if !(CV_MIN_SIZE..=CV_MAX_SIZE).contains(&size) {
-        panic!("Invalid size, the size must be between {} and {}", CV_MIN_SIZE, CV_MAX_SIZE);
+        panic!(
+            "Invalid size, the size must be between {} and {}",
+            CV_MIN_SIZE, CV_MAX_SIZE
+        );
     }
     urlsafe_token(size)
 }

@@ -37,9 +37,13 @@ impl Display for B64Error {
 impl Display for PKCEError {
     fn fmt(&self, fmt: &mut Formatter) -> fmt::Result {
         match self {
-            Self::InvalidCodeVerifier => write!(fmt, "Invalid PKCE code verifier."),
+            Self::InvalidCodeVerifier => {
+                write!(fmt, "Invalid PKCE code verifier.")
+            }
             Self::InvalidMethod => write!(fmt, "Invalid PKCE method."),
-            Self::InvalidCodeChallenge => write!(fmt, "Invalid PKCE code challenge."),
+            Self::InvalidCodeChallenge => {
+                write!(fmt, "Invalid PKCE code challenge.")
+            }
         }
     }
 }
