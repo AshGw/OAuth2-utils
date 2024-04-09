@@ -32,11 +32,11 @@
 //!
 //!
 //! pub fn main() -> Result<(), CodeVerifierError> {
-//!     let code_verifier = gen_code_verifier(Some(128))?;
-//!     eprintln!("Code Verifier: {}", code_verifier);
-//!     let code_challenge = gen_code_challenge(&code_verifier);
-//!     eprintln!("Code Challenge: {}", code_challenge);
-//!     Ok(())
+//! let code_verifier = gen_code_verifier(Some(128))?;
+//! eprintln!("Code Verifier: {}", code_verifier);
+//! let code_challenge = gen_code_challenge(&code_verifier);
+//! eprintln!("Code Challenge: {}", code_challenge);
+//! Ok(())
 //! }
 //! ```
 //! To generate a URL-safe token for Nonce, State, etc..
@@ -54,12 +54,12 @@
 //! use oauth2_utils::urlsafe::b64::{urlsafe_b64decode, urlsafe_b64encode};
 //!
 //! pub fn main() -> Result<(), B64Error> {
-//!     let val = String::from("some value");
-//!     let encoded = urlsafe_b64encode(val);
-//!     println!("{}", encoded);
-//!     let decoded = urlsafe_b64decode(encoded)?;
-//!     println!("{}", decoded);
-//!     Ok(())
+//! let val = String::from("some value");
+//! let encoded = urlsafe_b64encode(val);
+//! println!("{}", encoded);
+//! let decoded = urlsafe_b64decode(encoded)?;
+//! println!("{}", decoded);
+//! Ok(())
 //! }
 //!```
 //!
