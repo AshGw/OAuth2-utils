@@ -1,5 +1,7 @@
 use crate::urlsafe::{urlsafe_b64encode, urlsafe_token};
+use crate::consts::{CV_DEFAULT_SIZE,CV_MIN_SIZE,CV_MAX_SIZE};
 use sha2::{Digest, Sha256};
+
 
 /// Generates a random [code verifier](https://datatracker.ietf.org/doc/html/rfc7636#section-4.1)
 /// string of a specified size.
@@ -10,13 +12,11 @@ use sha2::{Digest, Sha256};
 /// <br>
 /// **PANICS !** if not between `43` & `128`. Defaults to `96` characters if no size is provided.
 pub fn gen_code_verifier(n: Option<usize>) -> String {
-    const DEFAULT_SIZE: usize = 96;
-    const MIN_SIZE: usize = 43;
-    const MAX_SIZE: usize = 128;
 
-    let size: usize = n.unwrap_or(DEFAULT_SIZE);
-    if !(MIN_SIZE..=MAX_SIZE).contains(&size) {
-        panic!("Invalid size, the size must be between {} and {}", MIN_SIZE, MAX_SIZE);
+
+    let size: usize = n.unwrap_or(CV_DEFAULT_SIZE);
+    if !(CV_MIN_SIZE..=CV_MAX_SIZE).contains(&size) {
+        panic!("Invalid size, the size must be between {} and {}", CV_MIN_SIZE, CV_MAX_SIZE);
     }
     urlsafe_token(size)
 }
@@ -37,7 +37,7 @@ mod tests {
     #[test]
     fn test_gen_code_verifier_default_size() {
         let code_verifier: String = gen_code_verifier(None);
-        assert_eq!(code_verifier.len(), 96);
+        assert_eq!(code_verifier.len(), CV_DEFAULT_SIZE);
     }
 
     #[test]
@@ -55,8 +55,8 @@ mod tests {
 
     #[test]
     fn test_gen_code_challenge() {
-        let code_verifier: &str = "quandale_dingle";
+        let code_verifier: &str = "foo_bar";
         let code_challenge: String = gen_code_challenge(code_verifier);
-        assert_eq!(code_challenge.len(), 43);
+        assert_eq!(code_challenge.len(), CV_MIN_SIZE);
     }
 }

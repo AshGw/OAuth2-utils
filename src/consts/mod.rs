@@ -5,6 +5,10 @@ use base64::{
 
 pub const URLS_B64: GeneralPurpose = GeneralPurpose::new(&alphabet::URL_SAFE, general_purpose::NO_PAD);
 pub const URL_SAFE_CHARS: &str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_~";
+// CV is short for code verifier 
+pub const CV_DEFAULT_SIZE: usize = 96;
+pub const CV_MIN_SIZE: usize = 43;
+pub const CV_MAX_SIZE: usize = 128;
 
 #[cfg(test)]
 mod tests {
