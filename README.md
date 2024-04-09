@@ -64,3 +64,6 @@ pub fn main() -> Result<(), B64Error> {
     Ok(())
 }
 ```
+
+## License 
+[GPL](https://github.com/AshGw/oauth2-utils/blob/main/LICENSE)
