@@ -2,6 +2,8 @@ export RUST_BACKTRACE := "1"
 alias s:= setup 
 alias h:= set-hooks
 alias c:= clean
+alias f:= format
+
 alias cov:= coverage
 
 @setup:
@@ -24,5 +26,4 @@ alias cov:= coverage
 
 
 @format:
-     cargo fmt -- --check
-     
+     cargo fmt
